@@ -1,0 +1,46 @@
+schema_version: 1
+
+context:
+  name: torch-runstats
+  version: "0.2.0"
+
+package:
+  name: ${{ name|lower }}
+  version: ${{ version }}
+
+source:
+  url: https://pypi.org/packages/source/t/torch_runstats/torch_runstats-${{ version }}.tar.gz
+  sha256: bc7f32887103c820bd7cc710b9c476d1ec56a68a3ff9a42b9b56758bfb8afd97
+
+build:
+  number: 2
+  noarch: python
+  script: ${{ PYTHON }} -m pip install . -vv
+
+requirements:
+  host:
+    - pip
+    - python ${{ python_min }}.*
+    - setuptools
+  run:
+    - python >=${{ python_min }}
+    - pytorch
+
+tests:
+  - python:
+      imports:
+        - torch_runstats
+      pip_check: true
+      python_version:
+        - ${{ python_min }}
+        - "*"
+
+about:
+  summary: Running/online statistics for PyTorch
+  license: MIT
+  license_file: LICENSE
+  homepage: https://github.com/mir-group/pytorch_runstats
+
+extra:
+  recipe-maintainers:
+    - jan-janssen
